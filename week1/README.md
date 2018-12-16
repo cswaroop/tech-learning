@@ -20,26 +20,29 @@ Reference (code) tables. In graphQL
 ```
 -- Master table. Can be referenced into multiple transaction tables
 CREATE TABLE dealer (
-	id int NOT NULL PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
+    id int NOT NULL PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
     name text,
     description text    
 );
 -- Reference (lookup) table; nothing ever gets deleted
 CREATE TABLE applicationtype (
-	id int NOT NULL PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
+    id int NOT NULL PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
     name text,
     description text,
     isactive boolean
 );
 -- Transaction table; created/updated/deleted
 CREATE TABLE application (
-	id int NOT NULL PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
+    id int NOT NULL PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
     applicationtypeid int REFERENCES applicationtype (id),
     dealerid int NOT NULL REFERENCES dealer (id),
+    ltv numeric,
+    dti numeric,
+    pti numeric
 );
 -- 1-Many table with `application` table
 CREATE TABLE applicant (
-	id int NOT NULL PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
+    id int NOT NULL PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
     applicationid int REFERENCES application (id),
     firstname text,
     middlename text,
