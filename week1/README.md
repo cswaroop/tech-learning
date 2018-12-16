@@ -37,10 +37,7 @@ CREATE TABLE applicationtype (
 CREATE TABLE application (
     id int NOT NULL PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
     applicationtypeid int REFERENCES applicationtype (id),
-    dealerid int NOT NULL REFERENCES dealer (id),
-    ltv numeric,
-    dti numeric,
-    pti numeric
+    dealerid int NOT NULL REFERENCES dealer (id)
 );
 -- 1-Many table with `application` table
 CREATE TABLE applicant (
@@ -56,11 +53,25 @@ CREATE TABLE applicant (
 A graphQL equivalent would be
 
 ```
+enum ApplicationType {
+    CONSUMER
+    BUSINESS
+}
+type Dealer {
+    id: ID!
+    name: String
+}
 type Application {
     id: ID!
     applicationtype: ApplicationType
     dealerid: ID!
     applicants: [Applicant]!
+}
+type Applicant {
+    id: ID!
+    firstname: String
+    middlename: String
+    lastname: String
 }
 ```
 
