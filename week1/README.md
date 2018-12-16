@@ -14,6 +14,8 @@ GraphQL has 3 parts
 2. Mutation
 3. Subscription
 
+## SQL to GraphQL 
+
 First step would be to define schema and a parallel can be drawn with relational database design. First step is defining entities to support business abstractions.  Database tables are classified into Transaction, Master and 
 Reference (code) tables. In graphQL
 
