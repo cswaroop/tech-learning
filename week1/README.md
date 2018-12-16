@@ -66,7 +66,7 @@ CREATE TABLE business_applicant (
 CREATE TABLE bureaurecord (
     id int NOT NULL PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
     pulledat timestamptz,
-    requst text,
+    request text,
     response text
 );
 -- A BureauRecord can be used by many applicants
@@ -88,7 +88,7 @@ A graphQL equivalent would be
 ```
 enum ApplicationType {
     CONSUMER
-    BUSINESS
+    COMMERCIAL
 }
 type Product {
     id: ID!
@@ -100,13 +100,42 @@ type Application {
     productid: ID!
     applicants: [Applicant]!
 }
-type Applicant {
+enum ApplicantType {
+    PERSON
+    BUSINESS
+}
+interface Applicant {
     id: ID!
+    applicantype: ApplicantType
+    position: Int,
+    bureaurecord: [BureauRecord]!
+}
+type PersonApplicant implements Applicant {
+    id: ID!
+    applicanttype: ApplicantType
+    position: Int
     firstname: String
     middlename: String
     lastname: String
 }
+type BusinessApplicant implements Applicant {
+    id: ID!
+    applicanttype: ApplicantType
+    position: Int
+    tradingname: String
+    legalname: String
+    taxid: String
+    employeecount: Int
+}
+
+type BureauRecord {
+    id: ID!
+    pulledat: AWSTimeStamp
+    request: String
+    response: String
+}
+
 ```
 
-
+These are abstractions closer to domain. They could be even more abstract like Collections, Graph, Edges and Nodes etc.   Yet you can see the impedence mismatch between GraphQL and SQL
 
