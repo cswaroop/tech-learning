@@ -5,5 +5,5 @@
 2. GitHub GraphQL API[https://developer.github.com/v4/]
 3. Shopify GraphQL API [https://github.com/Shopify/graphql-design-tutorial]
 4. Jira REST API [https://developer.atlassian.com/server/jira/platform/rest-apis/]
-
+5. AWS AppSync GraphQL-as-Service [https://aws.amazon.com/appsync/]
 ## 
