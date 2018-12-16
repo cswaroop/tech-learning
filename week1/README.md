@@ -38,8 +38,10 @@ CREATE TABLE application (
     applicationtypeid int REFERENCES applicationtype (id),
     productid int NOT NULL REFERENCES product (id)
 );
+
 -- An application can have many applicants 
 -- Each applicant type can have one table. one-table-per-type inheritence
+
 CREATE TABLE applicant (
     id int NOT NULL PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
     applicationid int REFERENCES application (id),
@@ -69,6 +71,7 @@ CREATE TABLE bureaurecord (
     request text,
     response text
 );
+
 -- A BureauRecord can be used by many applicants
 -- An applicant can have many BureauRecords 
 -- Its a Many-to-Many
@@ -79,8 +82,6 @@ CREATE TABLE applicant_bureaus (
     applicantid int REFERENCES applicant (id),   
     bureauid int REFERENCES bureaurecord (id)
 );
-
-
 ```
 
 A graphQL equivalent would be
