@@ -16,12 +16,11 @@ GraphQL has 3 parts
 
 ## SQL to GraphQL 
 
-First step would be to define schema and a parallel can be drawn with relational database design. First step is defining entities to support business abstractions.  Database tables are classified into Transaction, Master and 
-Reference (code) tables.
+First step would be to define schema and a parallel can be drawn with relational database design. First step is defining entities to support business abstractions.  Database tables are classified into Transaction, Master and Reference (code) tables.  The following schema typically represents  all the complexity we encounter in real-world applications.
 
 ```
 -- Master table. Can be referenced into multiple transaction tables
-CREATE TABLE dealer (
+CREATE TABLE product (
     id int NOT NULL PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
     name text,
     description text    
@@ -37,7 +36,7 @@ CREATE TABLE applicationtype (
 CREATE TABLE application (
     id int NOT NULL PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
     applicationtypeid int REFERENCES applicationtype (id),
-    dealerid int NOT NULL REFERENCES dealer (id)
+    productid int NOT NULL REFERENCES product (id)
 );
 -- An application can have many applicants 
 -- Each applicant type can have one table. one-table-per-type inheritence
@@ -45,7 +44,8 @@ CREATE TABLE applicant (
     id int NOT NULL PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
     applicationid int REFERENCES application (id),
     -- applicanttype can be PERSON or BUSINESS
-    applicanttype text
+    applicanttype text,
+    position int
 );
 CREATE TABLE person_applicant (
     id int NOT NULL REFERENCES applicant (id),
@@ -65,7 +65,9 @@ CREATE TABLE business_applicant (
 
 CREATE TABLE bureaurecord (
     id int NOT NULL PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
-    body text
+    pulledat timestamptz,
+    requst text,
+    response text
 );
 -- A BureauRecord can be used by many applicants
 -- An applicant can have many BureauRecords 
@@ -88,14 +90,14 @@ enum ApplicationType {
     CONSUMER
     BUSINESS
 }
-type Dealer {
+type Product {
     id: ID!
     name: String
 }
 type Application {
     id: ID!
     applicationtype: ApplicationType
-    dealerid: ID!
+    productid: ID!
     applicants: [Applicant]!
 }
 type Applicant {
