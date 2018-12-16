@@ -134,6 +134,8 @@ type BureauRecord {
     pulledat: AWSTimeStamp
     request: String
     response: String
+    responseHtml: String
+    responsePdf: String
 }
 
 ```
